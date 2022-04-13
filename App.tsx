@@ -9,10 +9,16 @@
  */
 
 import React from 'react';
+import Header from './src/components/Header';
 import Converter from './src/pages/Converter';
 
 const App = () => {
-  return <Converter />;
+  return (
+    <>
+      <Header />
+      <Converter />
+    </>
+  );
 };
 
 export default App;
