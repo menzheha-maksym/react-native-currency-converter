@@ -11,9 +11,21 @@
 import React from 'react';
 import Converter from './src/pages/Converter';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
 import ExchangeRates from './src/pages/ExchangeRates';
 const Stack = createNativeStackNavigator();
+
+const headerStyle: NativeStackNavigationOptions = {
+  headerStyle: {backgroundColor: '#b70efa'},
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
+  headerTitleAlign: 'center',
+};
 
 const App = () => {
   return (
@@ -22,16 +34,13 @@ const App = () => {
         <Stack.Screen
           name="Converter"
           component={Converter}
-          options={{
-            headerStyle: {backgroundColor: '#b70efa'},
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerTitleAlign: 'center',
-          }}
+          options={headerStyle}
         />
-        <Stack.Screen name="ExchangeRates" component={ExchangeRates} />
+        <Stack.Screen
+          name="ExchangeRates"
+          component={ExchangeRates}
+          options={headerStyle}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
