@@ -1,3 +1,5 @@
+import {ParamListBase} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {Button, StyleSheet, TextInput, View} from 'react-native';
 
@@ -24,12 +26,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const Converter: React.FC<{}> = ({}) => {
+interface ConverterProps {
+  navigation: NativeStackNavigationProp<ParamListBase>;
+}
+
+const Converter: React.FC<ConverterProps> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <TextInput style={styles.input} placeholder='"15 usd" in "uah"' />
       <View style={styles.button}>
-        <Button title="Convert" />
+        <Button
+          title="Convert"
+          onPress={() => navigation.navigate('ExchangeRates')}
+        />
       </View>
     </View>
   );

@@ -13,14 +13,24 @@ import Converter from './src/pages/Converter';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ExchangeRates from './src/pages/ExchangeRates';
-
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Converter" component={Converter} />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Converter"
+          component={Converter}
+          options={{
+            headerStyle: {backgroundColor: '#b70efa'},
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTitleAlign: 'center',
+          }}
+        />
         <Stack.Screen name="ExchangeRates" component={ExchangeRates} />
       </Stack.Navigator>
     </NavigationContainer>
