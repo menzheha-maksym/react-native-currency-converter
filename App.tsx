@@ -9,7 +9,7 @@
  */
 
 import React from 'react';
-import Converter from './pages/Converter';
+import Converter from './src/pages/Converter';
 
 const App = () => {
   return <Converter />;
