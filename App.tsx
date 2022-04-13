@@ -12,17 +12,23 @@ import React from 'react';
 import Converter from './src/pages/Converter';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import ExchangeRates from './src/pages/ExchangeRates';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen
           options={{title: 'Currency Converter'}}
           name="Converter"
           component={Converter}
+        />
+        <Stack.Screen
+          options={{title: 'Exchange Rates'}}
+          name="ExchangeRates"
+          component={ExchangeRates}
         />
       </Stack.Navigator>
     </NavigationContainer>
