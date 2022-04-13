@@ -9,15 +9,23 @@
  */
 
 import React from 'react';
-import Header from './src/components/Header';
 import Converter from './src/pages/Converter';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <>
-      <Header />
-      <Converter />
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          options={{title: 'Currency Converter'}}
+          name="Converter"
+          component={Converter}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
