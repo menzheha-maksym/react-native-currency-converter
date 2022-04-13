@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, StyleSheet, TextInput, View} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,15 +20,13 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '60%',
+    marginTop: 20,
   },
 });
 
 const Converter: React.FC<{}> = ({}) => {
   return (
     <View style={styles.container}>
-      <View style={styles.title}>
-        <Text>Converter</Text>
-      </View>
       <TextInput style={styles.input} placeholder='"15 usd" in "uah"' />
       <View style={styles.button}>
         <Button title="Convert" />
