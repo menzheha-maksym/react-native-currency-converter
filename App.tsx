@@ -20,16 +20,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen
-          options={{title: 'Currency Converter'}}
-          name="Converter"
-          component={Converter}
-        />
-        <Stack.Screen
-          options={{title: 'Exchange Rates'}}
-          name="ExchangeRates"
-          component={ExchangeRates}
-        />
+        <Stack.Screen name="Converter" component={Converter} />
+        <Stack.Screen name="ExchangeRates" component={ExchangeRates} />
       </Stack.Navigator>
     </NavigationContainer>
   );
