@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
 import MoveTo from '../components/MoveTo';
+import RatesTable from '../components/RatesTable';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,23 +30,25 @@ interface ExchangeRatesProps {
 
 const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
   const moveToPage = {name: 'Converter', title: 'Converter'};
-  const baseCurrency = 'usd';
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('usd');
   const [items, setItems] = useState<ItemType<any>[]>();
 
+  const [ratesData, setRatesData] = useState<{}>();
+
   useEffect(() => {
-    fetch(`http://www.floatrates.com/daily/${baseCurrency}.json`)
+    fetch(`http://www.floatrates.com/daily/${value}.json`)
       .then(res => res.json() as Object)
       .then(json => {
+        setRatesData(json);
         const iv = [];
         for (let [k, v] of Object.entries(json)) {
           iv.push({label: k, value: String(v.code)});
         }
         setItems(iv);
       });
-  }, []);
+  }, [value]);
 
   return (
     <>
@@ -58,13 +61,18 @@ const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
             setOpen={setOpen}
             setValue={setValue}
             onChangeValue={v => console.log(v)}
-            translation={{PLACEHOLDER: 'Select base currency'}}
+            translation={{PLACEHOLDER: 'Select currency'}}
             style={styles.picker}
           />
-        ) : null}
+        ) : (
+          <Text>loading...</Text>
+        )}
       </View>
       <View style={styles.container}>
         <Text>Exchange Rates</Text>
+        {value && ratesData ? (
+          <RatesTable currency={value} ratesData={ratesData} />
+        ) : null}
       </View>
       <View style={styles.navButton}>
         <MoveTo navigation={navigation} moveToPage={moveToPage} />
