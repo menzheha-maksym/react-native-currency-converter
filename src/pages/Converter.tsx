@@ -44,7 +44,7 @@ const Converter: React.FC<ConverterProps> = ({navigation}) => {
         <View style={styles.button}>
           <Button
             title="Convert"
-            onPress={() => navigation.navigate('ExchangeRates')}
+            onPress={() => console.log(' press convert btn')}
           />
         </View>
       </View>
