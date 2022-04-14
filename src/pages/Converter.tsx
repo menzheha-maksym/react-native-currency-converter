@@ -2,6 +2,7 @@ import {ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {Button, StyleSheet, TextInput, View} from 'react-native';
+import MoveTo from '../components/MoveTo';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
     width: '60%',
     marginTop: 20,
   },
+  navButton: {
+    width: '100%',
+    height: 80,
+  },
 });
 
 interface ConverterProps {
@@ -31,16 +36,22 @@ interface ConverterProps {
 }
 
 const Converter: React.FC<ConverterProps> = ({navigation}) => {
+  const moveToPage = {name: 'ExchangeRates', title: 'Exchange Rates'};
   return (
-    <View style={styles.container}>
-      <TextInput style={styles.input} placeholder='"15 usd" in "uah"' />
-      <View style={styles.button}>
-        <Button
-          title="Convert"
-          onPress={() => navigation.navigate('ExchangeRates')}
-        />
+    <>
+      <View style={styles.container}>
+        <TextInput style={styles.input} placeholder='"15 usd" in "uah"' />
+        <View style={styles.button}>
+          <Button
+            title="Convert"
+            onPress={() => navigation.navigate('ExchangeRates')}
+          />
+        </View>
       </View>
-    </View>
+      <View style={styles.navButton}>
+        <MoveTo navigation={navigation} moveToPage={moveToPage} />
+      </View>
+    </>
   );
 };
 
