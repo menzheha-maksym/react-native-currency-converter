@@ -37,6 +37,7 @@ interface ExchangeRatesProps {
 
 const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
   const moveToPage = {name: 'Converter', title: 'Converter'};
+
   return (
     <>
       <View style={styles.container}>
