@@ -39,7 +39,7 @@ const App = () => {
         <Stack.Screen
           name="ExchangeRates"
           component={ExchangeRates}
-          options={headerStyle}
+          options={{title: 'Exchange Rates', ...headerStyle}}
         />
       </Stack.Navigator>
     </NavigationContainer>
