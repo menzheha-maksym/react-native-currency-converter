@@ -16,6 +16,8 @@ import {
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
 import ExchangeRates from './src/pages/ExchangeRates';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
 const Stack = createNativeStackNavigator();
 
 const headerStyle: NativeStackNavigationOptions = {
@@ -29,20 +31,22 @@ const headerStyle: NativeStackNavigationOptions = {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Converter"
-          component={Converter}
-          options={headerStyle}
-        />
-        <Stack.Screen
-          name="ExchangeRates"
-          component={ExchangeRates}
-          options={{title: 'Exchange Rates', ...headerStyle}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Converter"
+            component={Converter}
+            options={headerStyle}
+          />
+          <Stack.Screen
+            name="ExchangeRates"
+            component={ExchangeRates}
+            options={{title: 'Exchange Rates', ...headerStyle}}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
