@@ -57,6 +57,7 @@ const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
             items={items!}
             setOpen={setOpen}
             setValue={setValue}
+            onChangeValue={v => console.log(v)}
             translation={{PLACEHOLDER: 'Select base currency'}}
             style={styles.picker}
           />
