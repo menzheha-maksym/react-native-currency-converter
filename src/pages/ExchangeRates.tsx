@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     paddingTop: 10,
+    paddingBottom: 20,
   },
   navButton: {
     width: '100%',
