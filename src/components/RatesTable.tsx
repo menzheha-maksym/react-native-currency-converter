@@ -26,7 +26,7 @@ const RatesTable: React.FC<RatesTableProps> = ({currency, ratesData}) => {
   useEffect(() => {
     const rows = [];
     for (let [k, v] of Object.entries(ratesData)) {
-      rows.push([`1 ${k}`, ` ${v.rate.toFixed(2)} ${currency}`]);
+      rows.push([`1 ${k}`, ` ${v.inverseRate.toFixed(2)} ${currency}`]);
     }
     setTableData(rows);
   }, [currency, ratesData]);
