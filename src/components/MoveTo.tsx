@@ -16,16 +16,22 @@ const styles = StyleSheet.create({
   },
 });
 
+export type Page = {
+  name: string;
+  title: string;
+};
+
 interface MoveToProps {
   navigation: NativeStackNavigationProp<ParamListBase>;
-  moveToPage: {name: string; title: string};
+  moveToPage: Page;
 }
 
 const MoveTo: React.FC<MoveToProps> = ({navigation, moveToPage}) => {
+  const dispatch = useAppDispatch();
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate(moveToPage.name)}>
+      onPress={() => dispatch(moveToPage.name)}>
       <Text style={styles.text}>move to {moveToPage.title}</Text>
     </TouchableOpacity>
   );

@@ -1,32 +1,29 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Page} from '../../components/MoveTo';
 import {RootState} from '../store';
 
 export interface PageState {
-  name: string;
-  title: string;
+  value: {name: string; title: string};
 }
 
 const initialState: PageState = {
-  name: 'Converter',
-  title: 'Converter',
+  value: {
+    name: 'Converter',
+    title: 'Converter',
+  },
 };
 
 export const pageSlice = createSlice({
   name: 'page',
   initialState,
   reducers: {
-    moveToExchangeRates: state => {
-      state.name = 'ExchangeRates';
-      state.title = 'Exchange Rates';
-    },
-    moveToConverter: state => {
-      state.name = 'Converter';
-      state.title = 'Converter';
+    moveToPage: (state, action: PayloadAction<Page>) => {
+      state.value = action.payload;
     },
   },
 });
 
-export const {moveToConverter, moveToExchangeRates} = pageSlice.actions;
+export const {moveToPage} = pageSlice.actions;
 
 export const selectPage = (state: RootState) => state.page;
 
