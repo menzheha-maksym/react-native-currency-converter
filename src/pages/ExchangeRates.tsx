@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    paddingTop: 10,
   },
   navButton: {
     width: '100%',
@@ -70,7 +71,6 @@ const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
         )}
       </View>
       <View style={styles.container}>
-        <Text>Exchange Rates</Text>
         {value && ratesData ? (
           <RatesTable currency={value} ratesData={ratesData} />
         ) : null}
