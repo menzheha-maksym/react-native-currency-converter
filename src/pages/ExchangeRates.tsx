@@ -1,8 +1,10 @@
 import {ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
 import MoveTo from '../components/MoveTo';
+import RatesTable from '../components/RatesTable';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,23 +13,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-  },
-  title: {
-    backgroundColor: '#ffffff445',
-  },
-  input: {
-    borderWidth: 1,
-    backgroundColor: '#ffffff44',
-    width: '60%',
-    textAlign: 'center',
-  },
-  button: {
-    width: '60%',
-    marginTop: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
   },
   navButton: {
     width: '100%',
     height: 80,
+  },
+  picker: {
+    backgroundColor: '#02a9fc',
+    borderRadius: 0,
   },
 });
 
@@ -37,10 +32,49 @@ interface ExchangeRatesProps {
 
 const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
   const moveToPage = {name: 'Converter', title: 'Converter'};
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('usd');
+  const [items, setItems] = useState<ItemType<any>[]>();
+
+  const [ratesData, setRatesData] = useState<{}>();
+
+  useEffect(() => {
+    fetch(`http://www.floatrates.com/daily/${value}.json`)
+      .then(res => res.json() as Object)
+      .then(json => {
+        setRatesData(json);
+        const iv = [];
+        for (let [k, v] of Object.entries(json)) {
+          iv.push({label: k, value: String(v.code)});
+        }
+        setItems(iv);
+      });
+  }, [value]);
+
   return (
     <>
+      <View>
+        {items ? (
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items!}
+            setOpen={setOpen}
+            setValue={setValue}
+            onChangeValue={v => console.log(v)}
+            searchable={true}
+            translation={{PLACEHOLDER: 'Select currency'}}
+            style={styles.picker}
+          />
+        ) : (
+          <Text>loading...</Text>
+        )}
+      </View>
       <View style={styles.container}>
-        <Text>Exchange Rates</Text>
+        {value && ratesData ? (
+          <RatesTable currency={value} ratesData={ratesData} />
+        ) : null}
       </View>
       <View style={styles.navButton}>
         <MoveTo navigation={navigation} moveToPage={moveToPage} />
