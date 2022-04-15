@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
   tableBorder: {
     borderWidth: 1,
   },
+  rowHeader: {
+    padding: 10,
+  },
 });
 
 interface RatesTableProps {
@@ -34,11 +37,8 @@ const RatesTable: React.FC<RatesTableProps> = ({currency, ratesData}) => {
         <Text>Selected currency {currency}</Text>
         <ScrollView>
           <Table borderStyle={styles.tableBorder}>
-            <Row data={tableHead} />
+            <Row data={tableHead} textStyle={styles.rowHeader} />
             <Rows data={tableData} />
-            {/* {tableData.map((rowData, index) => {
-              <Row key={index} data={rowData} />;
-            })} */}
           </Table>
         </ScrollView>
       </View>
