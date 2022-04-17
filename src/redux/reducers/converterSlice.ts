@@ -1,19 +1,35 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../store';
+import {CurrencyRate} from './ratesSlice';
 
 export interface converterSlice {
+  status: 'idle' | 'loading' | 'failed';
   initialString: string;
   fromCurrency: string;
   toCurrency: string;
   value: number;
+  result: string;
 }
 
 const initialState: converterSlice = {
+  status: 'idle',
   initialString: '',
   fromCurrency: '',
   toCurrency: '',
   value: 0,
+  result: '',
 };
+
+export const fetchRatesAndConvertAsync = createAsyncThunk(
+  'convert/fetchAndConvert',
+  async (currency: string): Promise<CurrencyRate> => {
+    const response = await fetch(
+      `http://www.floatrates.com/daily/${currency}.json`,
+    );
+
+    return response.json();
+  },
+);
 
 export const converterSlice = createSlice({
   name: 'converter',
@@ -37,6 +53,22 @@ export const converterSlice = createSlice({
       state.fromCurrency = fromCurrency;
       state.toCurrency = toCurrency;
     },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchRatesAndConvertAsync.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(fetchRatesAndConvertAsync.fulfilled, (state, action) => {
+        const value = state.value;
+        const currencyInfo = action.payload[state.toCurrency];
+        const converted = value * currencyInfo.rate;
+
+        state.status = 'idle';
+        state.result = `${value} ${state.fromCurrency.toUpperCase()} = ${converted.toFixed(
+          2,
+        )} ${currencyInfo.code}`;
+      });
   },
 });
 

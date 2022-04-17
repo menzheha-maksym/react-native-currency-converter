@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../store';
 
-type CurrencyRate = {
+export type CurrencyRate = {
   [k: string]: {code: string; rate: number};
 };
 

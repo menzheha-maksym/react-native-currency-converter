@@ -4,8 +4,11 @@ import React, {useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 import MoveTo from '../components/MoveTo';
 import {useAppDispatch, useAppSelector} from '../redux/hooks';
-import {convert, getConverter} from '../redux/reducers/converterSlice';
-import {fetchRatesAsync} from '../redux/reducers/ratesSlice';
+import {
+  convert,
+  fetchRatesAndConvertAsync,
+  getConverter,
+} from '../redux/reducers/converterSlice';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +52,7 @@ interface ConverterProps {
 
 const Converter: React.FC<ConverterProps> = ({navigation}) => {
   const moveToPage = {name: 'ExchangeRates', title: 'Exchange Rates'};
-  const {fromCurrency, toCurrency, value} = useAppSelector(getConverter);
+  const {fromCurrency, result: convertResult} = useAppSelector(getConverter);
 
   const [inputText, onChangeInputText] = useState<string>();
   const [error, setError] = useState<string>('');
@@ -74,22 +77,19 @@ const Converter: React.FC<ConverterProps> = ({navigation}) => {
 
   useEffect(() => {
     if (isConverting) {
-      dispatch(fetchRatesAsync(fromCurrency))
-        .unwrap()
-        .then(rates => {
-          const currencyInfo = rates[toCurrency];
-          const converted = value * currencyInfo.rate;
-          console.log(rates);
-          setResult(
-            `${value} ${fromCurrency.toUpperCase()} = ${converted.toFixed(2)} ${
-              currencyInfo.code
-            }`,
-          );
-        });
+      dispatch(fetchRatesAndConvertAsync(fromCurrency));
+
       setError('');
       setIsConverting(false);
     }
-  }, [dispatch, fromCurrency, isConverting, toCurrency, value]);
+  }, [dispatch, fromCurrency, isConverting]);
+
+  useEffect(() => {
+    if (convertResult) {
+      setResult(convertResult);
+    }
+  }, [convertResult]);
+
   return (
     <>
       <View style={styles.container}>
