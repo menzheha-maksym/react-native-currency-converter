@@ -14,7 +14,7 @@ const initialState: ratesSilce = {
 };
 
 export const fetchRatesAsync = createAsyncThunk(
-  'converter/fetchRates',
+  'rates/fetchRates',
   async (currency: string): Promise<[{[k: string]: {code: string}}]> => {
     const response = await fetch(
       `http://www.floatrates.com/daily/${currency}.json`,

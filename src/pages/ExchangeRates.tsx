@@ -5,8 +5,12 @@ import {StyleSheet, Text, View} from 'react-native';
 import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
 import MoveTo from '../components/MoveTo';
 import RatesTable from '../components/RatesTable';
-import {useAppDispatch} from '../redux/hooks';
-import {fetchRatesAsync, setCurrency} from '../redux/reducers/ratesSlice';
+import {useAppDispatch, useAppSelector} from '../redux/hooks';
+import {
+  fetchRatesAsync,
+  getCurrency,
+  setCurrency,
+} from '../redux/reducers/ratesSlice';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,9 +38,10 @@ interface ExchangeRatesProps {
 
 const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
   const moveToPage = {name: 'Converter', title: 'Converter'};
+  const currency = useAppSelector(getCurrency);
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('usd');
+  const [value, setValue] = useState(currency);
   const [items, setItems] = useState<ItemType<any>[]>();
 
   const [ratesData, setRatesData] = useState<{}>();
@@ -44,7 +49,7 @@ const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchRatesAsync(value))
+    dispatch(fetchRatesAsync(currency))
       .unwrap()
       .then(rates => {
         setRatesData(rates);
@@ -54,7 +59,7 @@ const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
         }
         setItems(iv);
       });
-  }, [dispatch, value]);
+  }, [currency, dispatch]);
 
   return (
     <>
