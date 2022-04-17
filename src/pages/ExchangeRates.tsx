@@ -6,7 +6,7 @@ import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
 import MoveTo from '../components/MoveTo';
 import RatesTable from '../components/RatesTable';
 import {useAppDispatch} from '../redux/hooks';
-import {fetchRatesAsync} from '../redux/reducers/ratesSlice';
+import {fetchRatesAsync, setCurrency} from '../redux/reducers/ratesSlice';
 
 const styles = StyleSheet.create({
   container: {
@@ -54,17 +54,6 @@ const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
         }
         setItems(iv);
       });
-
-    // fetch(`http://www.floatrates.com/daily/${value}.json`)
-    //   .then(res => res.json() as Object)
-    //   .then(json => {
-    //     setRatesData(json);
-    //     const iv = [];
-    //     for (let [k, v] of Object.entries(json)) {
-    //       iv.push({label: k, value: String(v.code)});
-    //     }
-    //     setItems(iv);
-    //   });
   }, [dispatch, value]);
 
   return (
@@ -77,7 +66,7 @@ const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
             items={items!}
             setOpen={setOpen}
             setValue={setValue}
-            onChangeValue={v => console.log(v)}
+            onChangeValue={v => dispatch(setCurrency(v))}
             searchable={true}
             translation={{PLACEHOLDER: 'Select currency'}}
             style={styles.picker}
