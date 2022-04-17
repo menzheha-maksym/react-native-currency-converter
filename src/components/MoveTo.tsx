@@ -2,7 +2,6 @@ import {ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {useAppDispatch} from '../redux/hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,11 +26,10 @@ interface MoveToProps {
 }
 
 const MoveTo: React.FC<MoveToProps> = ({navigation, moveToPage}) => {
-  const dispatch = useAppDispatch();
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => dispatch(moveToPage.name)}>
+      onPress={() => navigation.navigate(moveToPage.name)}>
       <Text style={styles.text}>move to {moveToPage.title}</Text>
     </TouchableOpacity>
   );

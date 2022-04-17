@@ -3,6 +3,8 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 import MoveTo from '../components/MoveTo';
+//import {useAppDispatch} from '../redux/hooks';
+//import {fetchRatesAsync} from '../redux/reducers/ratesSlice';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,6 +53,8 @@ const Converter: React.FC<ConverterProps> = ({navigation}) => {
   const [error, setError] = useState<string>('');
   const [result, setResult] = useState<string>('');
 
+  //const dispatch = useAppDispatch();
+
   async function tryConvert() {
     if (!inputText) {
       setError('enter a valid string to convert, (ex "15 usd" in "uah")');
@@ -70,6 +74,8 @@ const Converter: React.FC<ConverterProps> = ({navigation}) => {
       return;
     }
     setError('');
+
+    //dispatch(fetchRatesAsync(fromCurrency));
     await fetch(`http://www.floatrates.com/daily/${fromCurrency}.json`)
       .then(res => res.json())
       .then(json => {

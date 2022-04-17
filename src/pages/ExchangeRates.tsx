@@ -5,6 +5,8 @@ import {StyleSheet, Text, View} from 'react-native';
 import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
 import MoveTo from '../components/MoveTo';
 import RatesTable from '../components/RatesTable';
+import {useAppDispatch} from '../redux/hooks';
+import {fetchRatesAsync} from '../redux/reducers/ratesSlice';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,18 +41,31 @@ const ExchangeRates: React.FC<ExchangeRatesProps> = ({navigation}) => {
 
   const [ratesData, setRatesData] = useState<{}>();
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    fetch(`http://www.floatrates.com/daily/${value}.json`)
-      .then(res => res.json() as Object)
-      .then(json => {
-        setRatesData(json);
+    dispatch(fetchRatesAsync(value))
+      .unwrap()
+      .then(rates => {
+        setRatesData(rates);
         const iv = [];
-        for (let [k, v] of Object.entries(json)) {
+        for (let [k, v] of Object.entries(rates)) {
           iv.push({label: k, value: String(v.code)});
         }
         setItems(iv);
       });
-  }, [value]);
+
+    // fetch(`http://www.floatrates.com/daily/${value}.json`)
+    //   .then(res => res.json() as Object)
+    //   .then(json => {
+    //     setRatesData(json);
+    //     const iv = [];
+    //     for (let [k, v] of Object.entries(json)) {
+    //       iv.push({label: k, value: String(v.code)});
+    //     }
+    //     setItems(iv);
+    //   });
+  }, [dispatch, value]);
 
   return (
     <>
