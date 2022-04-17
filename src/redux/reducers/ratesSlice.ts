@@ -1,9 +1,13 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../store';
 
+type CurrencyRate = {
+  [k: string]: {code: string; rate: number};
+};
+
 export interface ratesSilce {
   status: 'idle' | 'loading' | 'failed';
-  rates: Array<{}>;
+  rates: {};
   currency: string;
 }
 
@@ -15,7 +19,7 @@ const initialState: ratesSilce = {
 
 export const fetchRatesAsync = createAsyncThunk(
   'rates/fetchRates',
-  async (currency: string): Promise<[{[k: string]: {code: string}}]> => {
+  async (currency: string): Promise<CurrencyRate> => {
     const response = await fetch(
       `http://www.floatrates.com/daily/${currency}.json`,
     );

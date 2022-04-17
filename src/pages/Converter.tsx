@@ -3,8 +3,8 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 import MoveTo from '../components/MoveTo';
-//import {useAppDispatch} from '../redux/hooks';
-//import {fetchRatesAsync} from '../redux/reducers/ratesSlice';
+import {useAppDispatch} from '../redux/hooks';
+import {fetchRatesAsync} from '../redux/reducers/ratesSlice';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,7 +53,7 @@ const Converter: React.FC<ConverterProps> = ({navigation}) => {
   const [error, setError] = useState<string>('');
   const [result, setResult] = useState<string>('');
 
-  //const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   async function tryConvert() {
     if (!inputText) {
@@ -75,16 +75,16 @@ const Converter: React.FC<ConverterProps> = ({navigation}) => {
     }
     setError('');
 
-    //dispatch(fetchRatesAsync(fromCurrency));
-    await fetch(`http://www.floatrates.com/daily/${fromCurrency}.json`)
-      .then(res => res.json())
-      .then(json => {
-        let res = json[toCurrency];
-        let converted = value * Number(res.rate);
+    dispatch(fetchRatesAsync(fromCurrency))
+      .unwrap()
+      .then(rates => {
+        const currencyInfo = rates[toCurrency];
+        const converted = value * currencyInfo.rate;
+        console.log(rates);
         setResult(
           `${value} ${fromCurrency.toUpperCase()} = ${converted.toFixed(2)} ${
-            res.code
-          } `,
+            currencyInfo.code
+          }`,
         );
       });
   }
