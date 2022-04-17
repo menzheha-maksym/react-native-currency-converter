@@ -3,14 +3,13 @@ import {Page} from '../../components/MoveTo';
 import {RootState} from '../store';
 
 export interface PageState {
-  value: {name: string; title: string};
+  name: string;
+  title: string;
 }
 
 const initialState: PageState = {
-  value: {
-    name: 'Converter',
-    title: 'Converter',
-  },
+  name: 'Converter',
+  title: 'Converter',
 };
 
 export const pageSlice = createSlice({
@@ -18,7 +17,8 @@ export const pageSlice = createSlice({
   initialState,
   reducers: {
     moveToPage: (state, action: PayloadAction<Page>) => {
-      state.value = action.payload;
+      state.name = action.payload.name;
+      state.title = action.payload.title;
     },
   },
 });
